@@ -16,7 +16,7 @@ A fast, lightweight, web-based tool designed to extract Luau scripts from Roblox
 ## 🛠️ How to Use
 
 1. Export your model or project from **Roblox Studio** as a `.rbxmx` file (`Selection > Save to File...`).
-2. Open the **[Live Web Tool](https://KULLANICI_ADIN.github.io/rbxmx-script-extractor/)**.
+2. Open the Live Web Tool.
 3. Drag and drop your `.rbxmx` file into the box (or click to select).
 4. The tool will parse the project hierarchy and automatically download a `.md` file containing all extracted scripts.
 
