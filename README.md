@@ -36,7 +36,7 @@ If you'd like to inspect the code or run it locally without using GitHub Pages:
 
 Got ideas to improve this tool or found a bug? Contributions and feedback are warmly welcomed!
 
-* **Feedback / Bug Reports:** Feel free to open an **[Issue](https://github.com/KULLANICI_ADIN/rbxmx-script-extractor/issues)**.
+* **Feedback / Bug Reports:** Feel free to open an **[Issue](https://github.com/ashreigns/rbxmx-script-extractor/issues)**.
 * **Improvements:** Fork the repository, make your changes, and submit a **Pull Request**.
 
 > **Note:** If you modify or re-distribute this project, please make sure to credit the original repository as required by the license.
