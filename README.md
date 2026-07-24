@@ -2,8 +2,6 @@
 
 A fast, lightweight, web-based tool designed to extract Luau scripts from Roblox Studio `.rbxmx` (XML) files and organize them into a single, structured Markdown (`.md`) file.
 
-🔗 **[Click Here to Use the Live Tool](https://KULLANICI_ADIN.github.io/rbxmx-script-extractor/)**
-
 ---
 
 ## ✨ Features
