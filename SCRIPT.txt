@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ACSX rbxm Full Project Extractor</title>
+    <style>
+        body { font-family: sans-serif; background: #1e1e1e; color: #fff; padding: 40px; text-align: center; }
+        .box { border: 2px dashed #4caf50; padding: 50px; background: #2d2d2d; border-radius: 10px; cursor: pointer; max-width: 500px; margin: 0 auto; }
+        #status { margin-top: 20px; font-weight: bold; color: #4caf50; }
+    </style>
+</head>
+<body>
+    <h2>Roblox .rbxmx AI Project Converter</h2>
+    <p>Drop the file you saved as <b>.rbxmx (XML)</b> from Roblox Studio into the box below.</p>
+    <div class="box" id="dropzone">Drag & Drop File Here or Click</div>
+    <div id="status"></div>
+
+    <script>
+        const zone = document.getElementById('dropzone');
+        const status = document.getElementById('status');
+        
+        zone.addEventListener('dragover', e => e.preventDefault());
+        zone.addEventListener('drop', e => {
+            e.preventDefault();
+            handleFile(e.dataTransfer.files);
+        });
+        
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.rbxmx';
+        zone.addEventListener('click', () => input.click());
+        input.addEventListener('change', () => handleFile(input.files));
+
+        function handleFile(files) {
+            const file = files[0];
+            if (!file) return;
+            status.style.color = "#4caf50";
+            status.textContent = "Parsing project, please wait...";
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const buffer = e.target.result;
+                const decoder = new TextDecoder('utf-8');
+                const text = decoder.decode(buffer);
+                
+                let output = "# ROBLOX PROJECT HIERARCHY AND CODE ARCHIVE\n";
+                output += "This file contains the full model structure and script source codes.\n\n";
+
+                let cleanText = text
+                    .replace(/&lt;/g, '<')
+                    .replace(/&gt;/g, '>')
+                    .replace(/&amp;/g, '&')
+                    .replace(/&quot;/g, '"')
+                    .replace(/&apos;/g, "'");
+
+                const scriptRegex = /<Item class="(Script|LocalScript|ModuleScript)".*?>[\s\S]*?<string name="Name">(.*?)<\/string>[\s\S]*?<ProtectedString name="Source">([\s\S]*?)<\/ProtectedString>/g;
+                let match;
+                let scriptCount = 0;
+
+                while ((match = scriptRegex.exec(cleanText)) !== null) {
+                    let type = match[1];
+                    let name = match[2].trim();
+                    let source = match[3].trim();
+                    
+                    output += `\n\n---`;
+                    output += `\n# OBJECT TYPE: ${type}`;
+                    output += `\n# OBJECT NAME: ${name}`;
+                    output += `\n\`\`\`lua\n${source}\n\`\`\`\n`;
+                    scriptCount++;
+                }
+
+                if (scriptCount === 0) {
+                    status.style.color = "#ff5722";
+                    status.textContent = "ERROR: No scripts found. Please make sure the file is in .rbxmx (XML) format.";
+                    return;
+                }
+
+                const blob = new Blob([output], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Roblox_Project_For_AI.md';
+                a.click();
+                
+                status.style.color = "#4caf50";
+                status.textContent = `SUCCESS! ${scriptCount} script(s) successfully extracted and .md file downloaded!`;
+            };
+            reader.readAsArrayBuffer(file);
+        }
+    </script>
+</body>
+</html>
